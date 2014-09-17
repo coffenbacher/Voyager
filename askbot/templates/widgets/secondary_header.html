@@ -1,0 +1,30 @@
+<!-- template secondary_header.html -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+
+
+        </div>
+        <div class="col-lg-4">
+
+                <form
+                        {% if active_tab == "tags" %}
+                            action="{% url tags %}"
+                        {% elif page_class == 'user-profile-page' %}
+                            action="{% url questions %}" id="searchForm"
+                        {% elif active_tab == "users" %}
+                            action=""
+                        {% else %}
+                            action="{% url questions %}" id="searchForm"
+                        {% endif %}
+                            class="{{ enabled_scopes_class }}"
+                            method="get">
+                    {% include "widgets/search_bar.html" %}
+                </form>
+
+           <hr />
+                {% include "widgets/ask_button.html" %}
+
+        </div>
+    </div>
+</div>

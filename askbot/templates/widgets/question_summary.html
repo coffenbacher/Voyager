@@ -1,0 +1,33 @@
+{% from "macros.html" import user_country_flag, tag_list_widget, timeago, user_primary_group %}
+<div class="short-summary{% if extra_class %} {{extra_class}}{% endif %}" id="question-{{question.id}}">
+    <h2><a href="{{ question.get_absolute_url(thread=thread) }}">{{thread.get_title()|escape}}</a></h2>
+    <ul class="counts">
+        <li class="badge">
+            {{ question.score|humanize_counter }} votes
+        </li>
+        <li class="badge">
+            {{ thread.view_count|humanize_counter }} views
+        </li>
+        <li class="badge {% if thread.get_answer_count(visitor) > 0 %}badge-success{% endif %}">
+            {{ thread.get_answer_count(visitor)|humanize_counter }} answers
+        </li>
+    </ul>
+    {{ tag_list_widget(thread.get_tag_names(), search_state=search_state) }}
+    <div class="clearfix"></div>
+    <div class="userinfo">
+        {{ timeago(thread.last_activity_at) }}
+        {% set latest_revision = thread.get_latest_revision(user=visitor) %}
+        by
+        {% if latest_revision and latest_revision.is_anonymous %}
+            <span class="anonymous">{{ thread.last_activity_by.get_anonymous_name() }}</span>
+        {% else %}
+            <a href="{% url user_profile thread.last_activity_by.id, thread.last_activity_by.username|slugify %}">{{thread.last_activity_by.username|escape}}</a> {{ user_country_flag(thread.last_activity_by) }}
+            {% if thread.last_activity_by.get_primary_group() %}
+                - {{ user_primary_group(thread.last_activity_by) }}
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+</div>
+<hr />

@@ -1,0 +1,8 @@
+{% import "macros.html" as macros%}
+<li>
+    <a href="{% url tags %}" {% if active_tab == 'tags' %}class="on"{% endif %}>TAGS</a>
+</li>
+<li>
+    <a href="{% url users %}" {% if active_tab == 'users' %}class="on"{% endif %}>USERS</a>
+</li>
+
